@@ -3,7 +3,7 @@ spring:
     url: jdbc:mysql://localhost:3306/examsystem?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false #&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password:
+    password: root #要改，重要
 
   thymeleaf:
     cache: false # 关闭缓存
@@ -35,7 +35,7 @@ server:
 arcsoft-static-paramter:
   appId: BUgtY16rnW2YRRGvESxsySDXYP3g7MCkHSzN1mSVeuaZ
   sdkKey: 7BmfjYmrHVrfAFh4ppot1mdcpkn9nuYG5TDQ7FmjfTEo
-  faceEngineLibPath: D:\毕设\毕业论文档案袋文件-待发送\1608054401_王震\系统源码\examsystem\src\main\resources\faceLib
+  faceEngineLibPath: P:\workspace_idea\examsystem\src\main\resources\faceLib # 改成你本地的地址，重要
   webScoketPort: 81
 
 #用户账户校验配置文件
@@ -93,17 +93,17 @@ mybatis:
 #文件上传的路径配置
 upload-static-paramter:
   #人脸识别上传的配置
-  faceFolderlocalPath: C:\ExemSystem\faces\       #本地的文件夹地址
+  faceFolderlocalPath: C:\ExemSystem\faces\       #本地的文件夹地址 #要改，重要
   faceAccessPath: /face/**      #访问该图片的请求地址
 
 
   #题目解析视频的上传配置
-  problemFolderLocalPath: C:\ExemSystem\videos\      #本地的文件夹地址
+  problemFolderLocalPath: C:\ExemSystem\videos\      #本地的文件夹地址 #要改，重要
   problemAccessPath: /video/**     #访问视频文件的请求地址
 
 
   #在线监控的人脸作弊图片保存地址
-  examFaceDetectLocalPath: C:\ExemSystem\examFaceDetect\
+  examFaceDetectLocalPath: C:\ExemSystem\examFaceDetect\ #要改，重要
   examFaceDetectAccessPath: /examFaceDetectImgs/**
 
 
