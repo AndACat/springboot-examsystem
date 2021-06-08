@@ -1,8 +1,6 @@
 package com.wangzhen.login.facelogin;
 
-import com.arcsoft.face.FaceEngine;
 import com.arcsoft.face.FaceFeature;
-import com.wangzhen.configuration.MyWebAppConfig;
 import com.wangzhen.configuration.PublicSession;
 import com.wangzhen.models.users.Student;
 import com.wangzhen.services.manager.StudentService;

@@ -11,10 +11,10 @@
 5. 学生首页截图
     ![img_5.png](img_5.png)
     ![img_6.png](img_6.png)
-6. 人脸识别登录 
+6. 人脸识别登录<br>
     因本台式机无摄像头，因此此时截图没有看到摄像头，想看具体演示请转 项目视频演示/在线考试系统讲解.mp4
     ![img_7.png](img_7.png)
-## 事例账号密码
+## 示例账号密码
 1. 学生 1608054401/111
 2. 管理员 admin/111
 3. 教师 1677688026/111
@@ -48,19 +48,22 @@
 2. 修改application.yml文件
 3. idea中启动
 4. 访问localhost:8080
-## application.yml文件修改注释
+## application.yml文件修改提示
 1. 数据库账号密码记得改
 2. 默认端口号是80（不是8080）
 3. arcsoft-static-paramter底下的变量要配置好，其中faceEngineLibPath指向你resources/faceLib/*的绝对目录
 4. upload-static-paramter底下的路径，共三个，faceFolderlocalPath、problemFolderLocalPath、examFaceDetectLocalPath、要确保你的系统中存在这些路径
 ## 重要提示
 1. resources/faceLib/*是虹软人脸识别所需的dll包，没有这些包，系统中的人脸识别将会无法启动，同时还应在application.yml中正确配置开发包的绝对路径
-2. resources/static/lib/*下有两个jar也要加到项目的构建路径中
-3. The server time zone value '�й���׼ʱ��' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the serverTimezone configuration property)
+2. resources/static/lib/*下有1个jar也要加到项目的构建路径中 图中是2个，实际是1个，图错了懒得换了
+   ![img.png](img.png)
+3. The server time zone value '�й���׼ʱ��' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the serverTimezone configuration property)<br>
     数据库时区错误，执行 SQL: set global time_zone = '+8:00'
-![img.png](img.png)
-## 项目论文
-项目自带论文，在根目录下，可自行查看
 
+## 项目论文
+项目自带论文，在根目录下，可自行查看<br>项目论文目录截图
+![img_8.png](img_8.png)
+## 如果我的项目出现问题，请发[Issue](https://gitee.com/WangZhenCoder/examsystem/issues)
+## 项目releases版请访问[]
 ## 本人长期接毕业设计（springboot相关的，网站类型的），QQ1677688026，有需要的可以联系我
 

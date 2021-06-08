@@ -169,6 +169,18 @@
             <version>7.0.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.face</groupId>
+            <artifactId>face</artifactId>
+            <version>3.0</version>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>com.face</groupId>-->
+<!--            <artifactId>arcsoft-sdk-face</artifactId>-->
+<!--            <version>3.0</version>-->
+<!--        </dependency>-->
+
     </dependencies>
 
     <build>
