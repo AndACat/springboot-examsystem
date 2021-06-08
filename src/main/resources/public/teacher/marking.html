@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>阅卷</title>
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin/home/ionicons.min.css">
+    <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/css/admin/home/css.css">
+    <!--custom css-->
+    <link rel="stylesheet" href="/css/teacher/knowledgelist/index.css">
+    <!-- jsGrid -->
+    <link rel="stylesheet" href="/plugins/jsgrid/jsgrid.min.css">
+    <link rel="stylesheet" href="/plugins/jsgrid/jsgrid-theme.min.css">
+    <style>
+        .reSizeInput{
+            display: inline;
+            min-width: 90px;
+            width: 20%;
+        }
+        .red{
+            color: #ff7003;
+        }
+        i:hover{
+            cursor:pointer
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<!-- Site wrapper -->
+<div class="wrapper">
+    <!-- Navbar-->
+    <div id="app_navbar">
+        <app_navbar></app_navbar>
+    </div>
+    <!-- /.navbar -->
+
+
+    <!-- Main Sidebar Container -->
+    <div id="app_aside">
+        <app_aside></app_aside>
+    </div>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div id="jsGrid">
+            </div>
+            <div class="fade modal" id="markModal" data-backdrop="static">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">编辑</h4>&nbsp;&nbsp;&nbsp;
+                            <input id="uuid" style="display: none">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="markPlace">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="markPaper_server">提交阅卷结果</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/dist/js/demo.js"></script>
+<!-- fullCalendar 2.2.5 -->
+<script src="/plugins/moment/moment.min.js"></script>
+<script src="/plugins/fullcalendar/main.min.js"></script>
+<script src="/plugins/fullcalendar-daygrid/main.min.js"></script>
+<script src="/plugins/fullcalendar-timegrid/main.min.js"></script>
+<script src="/plugins/fullcalendar-interaction/main.min.js"></script>
+<script src="/plugins/fullcalendar-bootstrap/main.min.js"></script>
+<!-- vue.js for app-->
+<script src="/plugins/vue/dist/vue.js"></script>
+<script src="/js/teacher/components/app_navbar.js"></script>
+<script src="/js/teacher/components/app_aside.js"></script>
+<!--sortable.js-->
+<script src="/plugins/sortablejs/Sortable.js"></script>
+<!-- jsGrid -->
+<script src="/plugins/jsgrid/jsgrid.min.js"></script>
+
+<!-- SweetAlert2 -->
+<script src="/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="/plugins/toastr/toastr.min.js"></script>
+<script src="/js/teacher/marking/marking.js"></script>
+<script src="/js/teacher/marking/jsGridUtil.js"></script>
+<!--sortable.js-->
+<script src="/plugins/sortablejs/Sortable.js"></script>
+<script>
+    new Vue({el:"#app_navbar",components:{app_navbar}});
+    new Vue({el:"#app_aside",components:{app_aside}});
+</script>
+
+</body>
+</html>

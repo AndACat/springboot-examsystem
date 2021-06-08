@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>固定出卷</title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- jsGrid -->
+  <link rel="stylesheet" href="../plugins/jsgrid/jsgrid.min.css">
+  <link rel="stylesheet" href="../plugins/jsgrid/jsgrid-theme.min.css">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <link rel="stylesheet" href="../css/admin/teacher/index.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <style>
+    .red{
+      color: #ff7003;
+    }
+    .select2-selection__choice {
+      background-color: #007bff !important;
+      border-color: #006fe6 !important;
+      color: #fff !important;
+      padding: 0 10px !important;
+      margin-top: .31rem !important;
+    }
+    .list-group-item{
+      padding: 0rem 0rem !important;
+    }
+    .modal-body{
+      width: 100% !important;
+      height: 550px !important;
+    }
+    .jsgrid-grid-body{
+      height: 460px !important;
+    }
+    .overHidden{
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<!-- Site wrapper -->
+<div class="wrapper">
+  <!-- Navbar-->
+  <div id="app_navbar">
+    <app_navbar></app_navbar>
+  </div>
+  <!-- /.navbar -->
+
+
+  <!-- Main Sidebar Container -->
+  <div id="app_aside">
+    <app_aside></app_aside>
+  </div>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="container-fluid">
+        <div class="card card-default">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-6 text-center">
+                <label>考试课程</label>
+                <select class="form-control" id="course_uuid"></select>
+              </div>
+              <div class="col-3 text-center">
+                <label>考试总时长(分钟)</label>
+                <input class="form-control" type="number" id="during" value="100">
+              </div>
+              <div class="col-3 text-center">
+                <label>试卷名称</label>
+                <input class="form-control" id="paperName">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group text-center">
+                  <label>考试时间</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-clock"></i></span>
+                    </div>
+                    <input type="text" class="form-control float-right" id="reservationtime">
+                  </div>
+                  <!-- /.input group -->
+                </div>
+              </div>
+              <div class="col-1 text-center">
+                <label>正序显示题目</label><br>
+                <input type="checkbox" state="true" id="sort" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+              </div>
+              <div class="col-1 text-center">
+                <label>开启机器监控</label><br>
+                <input type="checkbox" state="true" id="openFaceIdentity" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+              </div>
+              <div class="col-1 text-center">
+                <label>对他人可见</label><br>
+                <input type="checkbox" state="true" id="visible" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+              </div>
+              <div class="col-1 text-center">
+                <label></label><br>
+                <select class="form-control" id="problemTypeSelect">
+                  <option value="SingleChoice">单选题</option>
+                  <option value="MultipleChoice">多选题</option>
+                  <option value="Fill">填空题</option>
+                  <option value="Short">简答题</option>
+                  <option value="Judge">判断题</option>
+                  <option value="Program">编程题</option>
+                </select>
+              </div>
+              <div class="col-1 text-center">
+                <label>&nbsp;</label><br>
+                <button class="btn btn-success btn-sm" id="createPaper">创建题型</button>
+              </div>
+              <div class="col-1 text-center">
+                <label>&nbsp;</label><br>
+                <button class="btn btn-success btn-sm" id="savePaper">保存试卷</button>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+        <div id="paperInfo" class="list-group">
+
+        </div>
+        <div class="modal fade" id="modal_SingleChoice">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="width: 100%">
+              <div class="modal-header">
+                <h4 class="modal-title">单选题</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="jsGrid_SingleChoice" style="width: 100%">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modal_MultipleChoice">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="width: 100%">
+              <div class="modal-header">
+                <h4 class="modal-title">多选题</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="jsGrid_MultipleChoice" style="width: 100%">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modal_Fill">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="width: 100%">
+              <div class="modal-header">
+                <h4 class="modal-title">填空题</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="jsGrid_Fill" style="width: 100%">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modal_Judge">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="width: 100%">
+              <div class="modal-header">
+                <h4 class="modal-title">判断题</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="jsGrid_Judge" style="width: 100%">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modal_Short">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="width: 100%">
+              <div class="modal-header">
+                <h4 class="modal-title">简答题</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="jsGrid_Short" style="width: 100%">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modal_Program">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="width: 100%">
+              <div class="modal-header">
+                <h4 class="modal-title">编程题</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="jsGrid_Program" style="width: 100%">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/dist/js/demo.js"></script>
+<!-- Bootstrap Switch -->
+<script src="/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="/plugins/toastr/toastr.min.js"></script>
+<!-- InputMask -->
+<script src="/plugins/moment/moment.min.js"></script>
+<script src="/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- date-range-picker -->
+<script src="/plugins/daterangepicker/daterangepicker.js"></script>
+<!--sortable.js-->
+<script src="../plugins/sortablejs/Sortable.js"></script>
+<!-- Select2 -->
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+<!-- jsGrid -->
+<script src="/plugins/jsgrid/jsgrid.js"></script>
+<!-- vue.js for app-->
+<script src="/plugins/vue/dist/vue.js"></script>
+<script src="/js/teacher/components/app_navbar.js"></script>
+<script src="/js/teacher/components/app_aside.js"></script>
+<script src="/js/teacher/fixation/fixation.js"></script>
+<script>
+  new Vue({el:"#app_navbar",components:{app_navbar}});
+  new Vue({el:"#app_aside",components:{app_aside}});
+</script>
+
+</body>
+</html>

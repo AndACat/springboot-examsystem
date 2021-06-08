@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.springtest.User">
+    <select id="">
+        insert into studentPaperAnswer
+        (uuid,paper_uuid,student_uuid,
+        <trim suffixOverrides=",">
+            <if test="singleChoiceScore != -1f">singleChoiceScore,</if>
+            <if test="multipleChoiceScore != -1f">multipleChoiceScore,</if>
+            <if test="fillScore != -1f">fillScore ,</if>
+            <if test="judgeScore != -1f">judgeScore,</if>
+            <if test="shortScore != -1f">shortScore,</if>
+            <if test="programScore != -1f">programScore ,</if>
+            <if test="totalScore != -1f">totalScore,</if>
+            <if test="paperTotalScore != -1f">paperTotalScore,</if>
+            <if test="answers != -1f">answers,</if>
+            <if test="pass != -1f">pass ,</if>
+        </trim>
+        )values(
+        #{uuid},#{paper_uuid},#{student_uuid},
+        <trim suffixOverrides=",">
+            <if test="singleChoiceScore != -1f"> #{singleChoiceScore},</if>
+            <if test="multipleChoiceScore != -1f"> #{multipleChoiceScore},</if>
+            <if test="fillScore != -1f"> #{fillScore},</if>
+            <if test="judgeScore != -1f"> #{judgeScore},</if>
+            <if test="shortScore != -1f"> #{shortScore},</if>
+            <if test="programScore != -1f"> #{programScore},</if>
+            <if test="totalScore != -1f"> #{totalScore},</if>
+            <if test="paperTotalScore != -1f"> #{paperTotalScore},</if>
+            <if test="answers != -1f"> #{answers},</if>
+            <if test="pass != -1f"> #{pass},</if>
+        </trim>
+        )
+    </select>
+
+</mapper>

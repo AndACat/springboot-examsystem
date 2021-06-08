@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <span id="msg"></span>
+    <input type="file" id="text"><button onclick="send()">send()</button>
+</body>
+<script>
+    let startTime = 0;
+    let endTime = 0;
+    let msg = document.getElementById("msg");
+    let wsServer = 'ws://127.0.0.1:81/faceDetect';
+    let websocket = new WebSocket(wsServer);
+    //监听连接打开
+    websocket.onopen = function (evt) {
+        msg.innerHTML = "The connection is open";
+    };
+
+    //监听服务器数据推送
+    websocket.onmessage = function (evt) {
+        endTime = new Date().getTime();
+        msg.innerHTML += "<br>" + evt.data;
+        console.log((endTime-startTime)/1000+"秒")
+    };
+
+    //监听连接关闭
+    websocket.onclose = function (evt) {
+        alert("连接关闭");
+    };
+
+    function send() {
+        let text = document.getElementById("text").files[0];
+        console.log(text)
+        startTime = new Date().getTime();
+        websocket.send(text);
+    }
+
+</script>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>登录页面</title>
+<!--	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">-->
+	<link rel="stylesheet" type="text/css" href="/plugins/bootstrap-4.4.1-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/plugins/font-awesome-4.7.0/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="/css/login/fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+	<script type="application/javascript" src="/plugins/jquery/jquery.js"></script>
+</head>
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+					<span class="login100-form-title p-b-49">登录</span>
+
+
+					<div class="wrap-input100 validate-input text-center">
+						<video id="video"></video>
+					</div>
+					<div>
+						<span style="color: red" id="responseMsg"></span>
+					</div>
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn" id="login">登 录</button>
+						</div>
+						<div class="txt1 text-center p-t-54 p-b-20">
+							<span>其它登录方式</span>
+						</div>
+					</div>
+					<div class="flex-c-m">
+						<a href="/login.html" class="login100-social-item bg1">
+							<i class="fa fa-user"></i>
+						</a>
+					</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		let mediaStreamTrack=null; // 视频对象(全局)
+		let video = document.getElementById('video');
+		function dataURLtoFile (dataurl, filename = 'face') {
+			let arr = dataurl.split(',')
+			let mime = arr[0].match(/:(.*?);/)[1]
+			let suffix = mime.split('/')[1]
+			let bstr = atob(arr[1])
+			let n = bstr.length
+			let u8arr = new Uint8Array(n)
+			while (n--) {
+				u8arr[n] = bstr.charCodeAt(n)
+			}
+			return new File([u8arr], `${filename}.${suffix}`, {type: mime})
+		}
+
+		function openMedia() {
+			let constraints = {
+				video: { width: 300, height: 300 },
+				audio: false
+			};
+			let promise;
+			promise = navigator.mediaDevices.getUserMedia(constraints);
+			promise.then((mediaStream) => {
+				// mediaStreamTrack = typeof mediaStream.stop === 'function' ? mediaStream : mediaStream.getTracks()[1];
+				mediaStreamTrack=mediaStream.getVideoTracks()
+				video.srcObject = mediaStream;
+				video.play();
+				// video.hidden;
+			});
+		}
+		// 拍照
+		function getPhoto() {
+			let newCanvas = document.createElement("canvas");
+			newCanvas.width = 300; //☜
+			newCanvas.height = 300;
+			newCanvas.getContext('2d').drawImage(video, 0, 0, 300, 300);
+
+			// toDataURL  ---  可传入'image/png'---默认, 'image/jpeg'
+			// 这里的img就是得到的图片
+			// return newCanvas.toDataURL("image/png");
+			return  dataURLtoFile(newCanvas.toDataURL("image/png"),"face");
+		}
+		openMedia();
+		$(function () {
+			$("#login").click(function () {
+				let face = getPhoto();
+				let formData = new FormData();
+				formData.append("face",face);
+				$.ajax({
+					url: "/facelogin",
+					processData: false,
+					contentType: false,
+					type: "post",
+					data:formData,
+					success:function (data) {
+						if(data.code == 200){
+							window.location.href = "/home";
+						}
+						if(data.code == 403){
+							$("#responseMsg").text(data.msg);
+						}
+					}
+				})
+			})
+		})
+	</script>
+</body>
+
+</html>

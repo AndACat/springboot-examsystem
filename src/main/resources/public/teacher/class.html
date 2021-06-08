@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>班级管理</title>
+
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/css/admin/home/ionicons.min.css">
+  <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="/css/admin/home/css.css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<!-- Site wrapper -->
+<div class="wrapper">
+  <!-- Navbar-->
+  <div id="app_navbar">
+    <app_navbar></app_navbar>
+  </div>
+  <!-- /.navbar -->
+
+
+  <!-- Main Sidebar Container -->
+  <div id="app_aside">
+    <app_aside></app_aside>
+  </div>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="container-fluid">
+        <div class="row">
+
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/dist/js/demo.js"></script>
+<!-- fullCalendar 2.2.5 -->
+<script src="/plugins/moment/moment.min.js"></script>
+<script src="/plugins/fullcalendar/main.min.js"></script>
+<script src="/plugins/fullcalendar-daygrid/main.min.js"></script>
+<script src="/plugins/fullcalendar-timegrid/main.min.js"></script>
+<script src="/plugins/fullcalendar-interaction/main.min.js"></script>
+<script src="/plugins/fullcalendar-bootstrap/main.min.js"></script>
+<!-- vue.js for app-->
+<script src="/plugins/vue/dist/vue.js"></script>
+<script src="/js/teacher/components/app_navbar.js"></script>
+<script src="/js/teacher/components/app_aside.js"></script>
+<script src="/js/teacher/home/index.js"></script>
+<script>
+  new Vue({el:"#app_navbar",components:{app_navbar}});
+  new Vue({el:"#app_aside",components:{app_aside}});
+</script>
+
+</body>
+</html>

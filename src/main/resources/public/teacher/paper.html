@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>试卷管理</title>
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin/home/ionicons.min.css">
+    <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/css/admin/home/css.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- jsGrid -->
+    <link rel="stylesheet" href="../plugins/jsgrid/jsgrid.min.css">
+    <link rel="stylesheet" href="../plugins/jsgrid/jsgrid-theme.min.css">
+    <!--custom css-->
+    <link rel="stylesheet" href="/css/teacher/knowledgelist/index.css">
+    <style>
+        .reSizeInput{
+            display: inline;
+            min-width: 90px;
+            width: 20%;
+        }
+        .red{
+            color: #ff7003;
+        }
+        .card-default{
+            height: 230px;
+        }
+        i:hover{
+            cursor:pointer
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<!-- Site wrapper -->
+<div class="wrapper">
+    <!-- Navbar-->
+    <div id="app_navbar">
+        <app_navbar></app_navbar>
+    </div>
+    <!-- /.navbar -->
+
+
+    <!-- Main Sidebar Container -->
+    <div id="app_aside">
+        <app_aside></app_aside>
+    </div>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="row" id="jsGrid">
+                
+            </div>
+            <div class="modal fade" id="editModal"><!--模态框-->
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">编辑</h4>&nbsp;&nbsp;&nbsp;
+                            <input id="uuid" style="display: none">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <div class="form-group">
+                                        <label>考试时间</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control float-right" id="reservationtime">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <label>考试总时长(分钟)</label>
+                                    <input class="form-control" type="number" id="during" value="100">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-center">
+                                    <label>正序显示题目</label><br>
+                                    <input type="checkbox" state="true" id="sort" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                                </div>
+                                <div class="col-4 text-center">
+                                    <label>开启人脸识别监控</label><br>
+                                    <input type="checkbox" state="true" id="openFaceIdentity" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                                </div>
+                                <div class="col-4 text-center">
+                                    <label>对他人可见</label><br>
+                                    <input type="checkbox" state="true" id="visible" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="editPaper_server">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="paper_info_Modal"><!--模态框-->
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">试卷详情</h4>&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row" id="paper_info_display">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/dist/js/demo.js"></script>
+<!-- Bootstrap Switch -->
+<script src="/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- InputMask -->
+<script src="/plugins/moment/moment.min.js"></script>
+<script src="/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- date-range-picker -->
+<script src="/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- vue.js for app-->
+<script src="/plugins/vue/dist/vue.js"></script>
+<script src="/js/teacher/components/app_navbar.js"></script>
+<script src="/js/teacher/components/app_aside.js"></script>
+<!--sortable.js-->
+<script src="/plugins/sortablejs/Sortable.js"></script>
+<!-- SweetAlert2 -->
+<script src="/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="/plugins/toastr/toastr.min.js"></script>
+<!-- jsGrid -->
+<script src="/plugins/jsgrid/jsgrid.js"></script>
+<script src="/js/teacher/paper/jsGridUtil.js"></script>
+<script src="/js/teacher/paper/paper.js"></script>
+<!--sortable.js-->
+<script src="/plugins/sortablejs/Sortable.js"></script>
+<script>
+    new Vue({el:"#app_navbar",components:{app_navbar}});
+    new Vue({el:"#app_aside",components:{app_aside}});
+</script>
+
+</body>
+</html>

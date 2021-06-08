@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>判断题</title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/css/admin/home/ionicons.min.css">
+  <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <!-- jsGrid -->
+  <link rel="stylesheet" href="/plugins/jsgrid/jsgrid.min.css">
+  <link rel="stylesheet" href="/plugins/jsgrid/jsgrid-theme.min.css">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <link rel="stylesheet" href="/css/admin/teacher/index.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="/plugins/toastr/toastr.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <style>
+    option:hover{
+      color: #FFFFFF;
+      background-color: #0099FF;
+    }
+    .overHidden{
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .select2-selection__choice {
+      background-color: #007bff !important;
+      border-color: #006fe6 !important;
+      color: #fff !important;
+      padding: 0 10px !important;
+      margin-top: .31rem !important;
+    }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm sidebar-open">
+<!-- Site wrapper -->
+<div class="wrapper">
+  <!-- Navbar-->
+  <div id="app_navbar">
+    <app_navbar></app_navbar>
+  </div>
+  <!-- Main Sidebar Container -->
+  <div id="app_aside">
+    <app_aside></app_aside>
+  </div>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div id="jsGrid"></div>
+      </div>
+      <div class="modal fade" id="editModal">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">修改</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-6">
+                  <label for="edit_problem">题目名</label>
+                  <input id="edit_uuid" style="display: none">
+                  <input type="text" id="edit_problem" class="form-control" placeholder="题目名">
+                </div>
+                <div class="col-6">
+                  <label for="edit_answer">答案</label>
+                  <form class="form-group">
+                    <select class="form-control" id="edit_answer">
+                      <option value="true">对</option>
+                      <option value="false">错</option>
+                    </select>
+                  </form>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="edit_analysis">题目分析</label>
+                      <textarea type="text" id="edit_analysis" class="form-control" placeholder="题目分析"></textarea>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <label for="edit_useNum">组卷次数</label>
+                      <input type="text" disabled id="edit_useNum" class="form-control" placeholder="组卷次数">
+                    </div>
+                    <div class="col-3">
+                      <label for="edit_allNum">答题次数</label>
+                      <input type="text" disabled id="edit_allNum" class="form-control" placeholder="答题次数">
+                    </div>
+                    <div class="col-3">
+                      <label for="edit_correctNum">答题正确数</label>
+                      <input type="text" disabled id="edit_correctNum" class="form-control" placeholder="答题正确数">
+                    </div>
+                    <div class="col-3">
+                      <label for="edit_correctRate">答题正确率</label>
+                      <input type="text" disabled id="edit_correctRate" class="form-control" placeholder="答题正确率">
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="edit_knowledgeList">考察知识点</label>
+                      <select multiple="multiple" id="edit_knowledgeList">
+
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <label for="edit_difficultyVal">难度值</label>
+                      <input type="text" id="edit_difficultyVal" class="form-control" placeholder="难度值" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+                    </div>
+                    <div class="col-3" id="edit_videoPath">
+
+                    </div>
+                    <div class="col-6">
+                      <label for="edit_videoPath">更新解析视频</label>
+                      <input type="file" id="edit_newVideoPath" class="form-control" placeholder="解析视频">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="editProblem_server">提交修改</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="insertModal">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">添加</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-6">
+                  <label for="insert_problem">题目</label>
+                  <input class="form-control" id="insert_problem" placeholder="题目">
+                </div>
+                <div class="col-6">
+                  <label for="insert_answer">答案</label>
+                  <form class="form-group">
+                    <select class="form-control" id="insert_answer">
+                      <option value="true">对</option>
+                      <option value="false">错</option>
+                    </select>
+                  </form>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="insert_analysis">题目分析</label>
+                      <textarea style="height: 130px" type="text" id="insert_analysis" class="form-control" placeholder="题目分析"></textarea>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="insert_knowledgeList">考察知识点</label>
+                      <select multiple="multiple" id="insert_knowledgeList">
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <label for="insert_difficultyVal">难度值</label>
+                      <input type="text" id="insert_difficultyVal" class="form-control" placeholder="难度值,区间[0.0-10.0],数值越大,难度越高" onkeyup="if(isNaN(value)){execCommand('undo')}else{if(value>10||value<0)execCommand('undo')};" onafterpaste="if(isNaN(value)){execCommand('undo')}else{if(value>10||value<0)execCommand('undo')}">
+                    </div>
+                    <div class="col-6">
+                      <label for="insert_videoPath">更新解析视频</label>
+                      <input type="file" id="insert_videoPath" class="form-control" placeholder="解析视频">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="saveProblem_server">保存</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="insertByExcelModal">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">添加</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <label for="insertByExcel">Excel文件</label>
+              <input type="file" id="insertByExcel" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="form-control-file">
+              <a href="/excels/模板_多选题题库导入.xlsx">下载模板</a>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button type="button" class="btn btn-primary" id="insert_submitExcel">保存</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/dist/js/demo.js"></script>
+<!-- jsGrid -->
+<script src="/plugins/jsgrid/jsgrid.js"></script>
+<!-- SweetAlert2 -->
+<script src="/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="/plugins/toastr/toastr.min.js"></script>
+<!-- vue.js for app-->
+<script src="/plugins/vue/dist/vue.js"></script>
+<script src="/js/teacher/components/app_navbar.js"></script>
+<script src="/js/teacher/components/app_aside.js"></script>
+<!-- Select2 -->
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+<script>
+  new Vue({el:"#app_navbar",components:{app_navbar}});
+  new Vue({el:"#app_aside",components:{app_aside}});
+</script>
+<script src="/js/teacher/judge/judge.js"></script>
+<script src="/js/teacher/judge/jsGridUtil.js"></script>
+</body>
+</html>

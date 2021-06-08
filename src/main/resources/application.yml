@@ -1,0 +1,111 @@
+spring:
+  datasource: #数据库账户及密码设置
+    url: jdbc:mysql://localhost:3306/examsystem?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false #&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+
+  thymeleaf:
+    cache: false # 关闭缓存
+    prefix: classpath:/public
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+#日志级别
+logging:
+  level:
+    org.springframework: off
+    com.wangzhen: debug
+    org.mybaits: off
+  pattern:
+    console: "%-5level =>> %msg%n"
+server:
+  port: 80
+
+#mybatis 打印完整sql
+#mybatis:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+---
+#/.自定义配置
+
+#人脸识别配置
+arcsoft-static-paramter:
+  appId: BUgtY16rnW2YRRGvESxsySDXYP3g7MCkHSzN1mSVeuaZ
+  sdkKey: 7BmfjYmrHVrfAFh4ppot1mdcpkn9nuYG5TDQ7FmjfTEo
+  faceEngineLibPath: D:\毕设\毕业论文档案袋文件-待发送\1608054401_王震\系统源码\examsystem\src\main\resources\faceLib
+  webScoketPort: 81
+
+#用户账户校验配置文件
+usercheckutil:
+  max-account-length: 8
+  min-account-length: 11
+  email-regex: ^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$
+  phone-regex: ^1[3456789]\d{9}$
+  min-age: 10
+  max-age: 100
+  min-name-length: 1
+  max-name-length: 10
+  min-code-length: 3
+  max-code-length: 20
+
+#SpringSecurity的配置文件
+authentication-static-paramter:
+  login-page: /login.html
+  username-parameter: account
+  password-parameter: code
+  login-processing-url: /login/form
+  default-success-url: /student/home.html
+  failure-forward-url: /login.html?error=true
+  permit-htmls:
+    - /login.html
+    - /facelogin.html
+    - /login
+    - /facelogin
+  permit-static-resources:
+    - /css/**
+    - /fonts/**
+    - /images/**
+    - /js/**
+    - /vendor/**
+    - /plugins/**
+    - /dist/**
+    - /build/**
+    - /pages/**
+  request-url-admin:
+    - /admin/**
+  request-url-teacher:
+    - /teacher/**
+  request-url-student:
+    - /student/**
+  request-url-manager:
+    - /manager/**
+  request-url: /abcd
+
+
+mybatis:
+  type-handlers-package: com.wangzhen.typehandler
+
+#以下是需要配置的
+
+#文件上传的路径配置
+upload-static-paramter:
+  #人脸识别上传的配置
+  faceFolderlocalPath: C:\ExemSystem\faces\       #本地的文件夹地址
+  faceAccessPath: /face/**      #访问该图片的请求地址
+
+
+  #题目解析视频的上传配置
+  problemFolderLocalPath: C:\ExemSystem\videos\      #本地的文件夹地址
+  problemAccessPath: /video/**     #访问视频文件的请求地址
+
+
+  #在线监控的人脸作弊图片保存地址
+  examFaceDetectLocalPath: C:\ExemSystem\examFaceDetect\
+  examFaceDetectAccessPath: /examFaceDetectImgs/**
+
+
+
+

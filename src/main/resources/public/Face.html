@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" src="css/toastr.min.css" href="/css/toastr.min.css">
+    <script src="js/toastr.min.js"></script>
+</head>
+<body>
+    <span style="font-size: large">在线考试系统</span>
+    <span>人脸登录</span><br>
+
+    <button onclick="openMedia()">开启摄像头</button>
+    <button onclick="takePhoto()">登录</button>
+    <button onclick="closeMedia()">关闭摄像头</button>
+    <button onclick="init()">开始监考</button>
+    <button onclick="stop()">停止监考</button>
+    <br>
+
+    <video  id="video" width="300px" height="300px" autoplay="autoplay"></video>
+
+    <div id="canvases">
+        <!--<canvas id="canvas" width="500px" height="500px"></canvas>-->
+
+    </div>
+    <img id="imgTag" src="">
+
+</body>
+<script>
+</script>
+<script>
+    let startTime = 0;
+    let endTime = 0;
+    let mediaStreamTrack=null; // 视频对象(全局)
+    let video = document.getElementById('video');
+    function dataURLtoFile (dataurl, filename = 'file') {
+        let arr = dataurl.split(',')
+        let mime = arr[0].match(/:(.*?);/)[1]
+        let suffix = mime.split('/')[1]
+        let bstr = atob(arr[1])
+        let n = bstr.length
+        let u8arr = new Uint8Array(n)
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n)
+        }
+        return new File([u8arr], `${filename}.${suffix}`, {type: mime})
+    }
+
+    function openMedia() {
+        let constraints = {
+            video: { width: 300, height: 300 },
+            audio: false
+        };
+        let promise;
+        promise = navigator.mediaDevices.getUserMedia(constraints);
+        promise.then((mediaStream) => {
+            // mediaStreamTrack = typeof mediaStream.stop === 'function' ? mediaStream : mediaStream.getTracks()[1];
+            mediaStreamTrack=mediaStream.getVideoTracks()
+            video.srcObject = mediaStream;
+            video.play();
+            // video.hidden;
+        });
+    }
+    // 拍照
+    function getPhoto() {
+        let newCanvas = document.createElement("canvas");
+        newCanvas.width = 100; //☜
+        newCanvas.height = 100;
+        newCanvas.getContext('2d').drawImage(video, 0, 0, 100, 100);
+        document.getElementById("canvases").appendChild(newCanvas)
+
+        // toDataURL  ---  可传入'image/png'---默认, 'image/jpeg'
+        // 这里的img就是得到的图片
+        // return newCanvas.toDataURL("image/png");
+        return  dataURLtoFile(newCanvas.toDataURL("image/png"),"face");
+    }
+    let int;
+    function init() {
+        int=self.setInterval("sendPhotoToServer()",100);
+    }
+    function stop() {
+        window.clearInterval(int);
+    }
+    // 关闭摄像头
+    function closeMedia() {
+        let stream = document.getElementById('video').srcObject;
+        let tracks = stream.getTracks();
+        tracks.forEach(function(track) {
+            track.stop();
+        });
+        document.getElementById('video').srcObject = null;
+    }
+    let wsServer = 'ws://127.0.0.1:81/faceDetect';
+    let websocket = new WebSocket(wsServer);
+    //监听连接打开
+    websocket.onopen = function (evt) {
+    };
+    //监听服务器数据推送
+    websocket.onmessage = function (evt) {
+        console.log(evt.data);
+        endTime = new Date().getTime();
+        console.log((endTime-startTime)/1000 + "秒");
+    };
+    //监听连接关闭
+    websocket.onclose = function (evt) {
+    };
+    function sendPhotoToServer() {
+        startTime = new Date().getTime();
+        let photo = getPhoto();
+        websocket.send(photo);
+    }
+    function sendStudentInfoServer() {
+        let student_uuid = $("#student_uuid").text();
+        websocket.send("student_uuid:"+student_uuid);
+    }
+    openMedia();
+</script>
+</html>

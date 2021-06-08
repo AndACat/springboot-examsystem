@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>教师管理</title>
+  <link rel="stylesheet" href="/plugins/font-awesome-4.7.0/css/font-awesome.css">
+  <link rel="stylesheet" href="/css/admin/home/ionicons.min.css">
+  <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="/css/admin/home/css.css" >
+  <!-- jsGrid -->
+  <link rel="stylesheet" href="/plugins/jsgrid/jsgrid.min.css">
+  <link rel="stylesheet" href="/plugins/jsgrid/jsgrid-theme.min.css">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <link rel="stylesheet" href="/css/admin/teacher/index.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="/plugins/toastr/toastr.min.css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<!-- Site wrapper -->
+<div class="wrapper">
+  <!-- Navbar-->
+  <div id="app_navbar">
+    <app_navbar></app_navbar>
+  </div>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <div id="app_aside">
+    <app_aside></app_aside>
+  </div>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <div id="jsGrid"></div>
+
+      <!--/.modal editTeacher-->
+      <div class="modal fade" id="edit_Modal">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">修改</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!--rows-->
+              <div class="row">
+                <div class="col-6">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>姓名</label>
+                    <input type="text" id="edit_name" class="form-control" placeholder="姓名">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>账号</label>
+                    <input type="text" id="edit_account" disabled class="form-control" placeholder="账号">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>出生年月</label>
+                    <input id="edit_birthday" type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="yyyy/mm/dd" data-mask placeholder="yyyy/mm/dd">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>性别</label>
+                    <select id="edit_sex" class="form-control select2" style="width: 100%;">
+                      <option value="true">男</option>
+                      <option value="false">女</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>职工号</label>
+                    <input type="text" id="edit_tno" class="form-control" placeholder="职工号">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>邮箱</label>
+                    <input type="text" id="edit_email" class="form-control" placeholder="邮箱">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>电话</label>
+                    <input type="text" id="edit_phone" class="form-control" placeholder="电话">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>授课班级</label>
+                    <select id="edit_classAndCourseLists" class="form-control select2" style="width: 100%;">
+
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3">
+                  <div class="form-group">
+                    <label>学院</label>
+                    <select id="edit_college" class="form-control select2" style="width: 100%;">
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-group">
+                    <label>专业</label>
+                    <select id="edit_profession" class="form-control select2" style="width: 100%;">
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>使用权限</label>
+                    <select id="edit_enabled" class="form-control select2" style="width: 100%;">
+                      <option value="true">正常</option>
+                      <option value="false">锁定</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <!-- text input -->
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label style="margin-bottom: 0;">人脸图像</label>
+                        <div class="imgDisplayParent">
+                          <img id="edit_faceImg" style="width: 2.5cm;height: 3.5cm">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6"><br/>
+                      <div id="edit_imgDisplayParent" class="imgDisplayParent" onclick='$("#edit_InputFile").click()'>
+
+                        <!--<img id="imgDisplay" style="width: 2.5cm;height: 3.5cm">-->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6" style="display: none">
+                  <input type="file" id="edit_InputFile" onchange="edit_custom_file_change()" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg">
+                </div>
+
+                <!--display none-->
+                <input type="text" id="edit_uuid" style="display: none">
+              </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button type="button" class="btn btn-primary" id="submitTeacherInfo">提交修改</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/.modal insertTeacher-->
+      <div class="modal fade" id="insert_Modal">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">添加</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!--rows-->
+              <div class="row">
+                <div class="col-6">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>姓名</label>
+                    <input type="text" id="insert_name" class="form-control" placeholder="姓名">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>账号</label>
+                    <input type="text" id="insert_account" class="form-control" placeholder="账号">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>出生年月</label>
+                    <input type="text" id="insert_birthday" data-inputmask-alias="datetime" data-inputmask-inputformat="yyyy/mm/dd" data-mask placeholder="yyyy/mm/dd" class="form-control" placeholder="出生年月">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>性别</label>
+                    <select id="insert_sex" class="form-control select2" style="width: 100%;">
+                      <option value="1">男</option>
+                      <option value="0">女</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>职工号</label>
+                    <input type="text" id="insert_tno" class="form-control" placeholder="职工号">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>邮箱</label>
+                    <input type="text" id="insert_email" class="form-control" placeholder="邮箱">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3">
+                  <label for="insert_college"></label>
+                  <select class="form-control" id="insert_college">
+                  </select>
+                </div>
+                <div class="col-3">
+                  <label for="insert_profession"></label>
+                  <select class="form-control" id="insert_profession">
+                  </select>
+                </div>
+                <div class="col-6">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>电话</label>
+                    <input type="text" id="insert_phone" class="form-control" placeholder="电话">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <label>1寸照片</label>
+                  <!-- text input -->
+                  <div id="insert_imgDisplayParent" onclick="$('#insert_InputFile').click()" class="imgDisplayParent">
+
+                  </div>
+                  <!--                  <button class="btn btn-primary" onclick="$('#insert_imgDisplayParent').html('');$('#insert_InputFile').val('')">清除</button>-->
+                </div>
+                <div style="display: none">
+                  <input type="file" onchange="insert_custom_file_change()" id="insert_InputFile" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" >
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>使用权限</label>
+                    <select id="insert_enabled" class="form-control select2" style="width: 100%;">
+                      <option value="true">正常</option>
+                      <option value="false">锁定</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button type="button" class="btn btn-primary" id="insert_submitTeacherInfo">保存</button>
+            </div>
+            </div>
+        </div>
+      </div>
+
+      <!--/.modal insertTeacherByExcel-->
+      <div class="modal fade" id="insertByExcel_Modal">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">添加</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <label for="insertByExcel">Excel文件</label>
+              <input type="file" id="insertByExcel" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="form-control-file">
+              <a href="/excels/模板_导入教师账户.xlsx">下载模板</a>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button type="button" class="btn btn-primary" id="insert_submitExcel">保存</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/dist/js/demo.js"></script>
+<!-- vue.js for app-->
+<script src="/plugins/vue/dist/vue.js"></script>
+<script src="/js/admin/components/app_navbar.js"></script>
+<script src="/js/admin/components/app_aside.js"></script>
+<!-- jsGrid -->
+<script src="/plugins/jsgrid/demos/db.js"></script>
+<script src="/plugins/jsgrid/jsgrid.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- Toastr -->
+<script src="/plugins/toastr/toastr.min.js"></script>
+<!-- InputMask -->
+<script src="/plugins/moment/moment.min.js"></script>
+<script src="/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<script>
+  new Vue({el:"#app_navbar",components:{app_navbar}});
+  new Vue({el:"#app_aside",components:{app_aside}});
+</script>
+<script src="/js/admin/teacher/teacher.js"></script>
+<script src="/js/admin/teacher/vaildata.js"></script>
+<script src="/js/admin/teacher/jsGridUtil.js"></script>
+<!--exif-js-->
+<script src="/plugins/exif-js/exif.js"></script>
+</body>
+</html>

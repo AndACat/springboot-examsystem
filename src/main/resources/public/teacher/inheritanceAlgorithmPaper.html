@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>随机出卷</title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <link rel="stylesheet" href="../css/admin/teacher/index.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <style>
+    .red{
+      color: #ff7003;
+    }
+    .select2-selection__choice {
+      background-color: #007bff !important;
+      border-color: #006fe6 !important;
+      color: #fff !important;
+      padding: 0 10px !important;
+      margin-top: .31rem !important;
+    }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<!-- Site wrapper -->
+<div class="wrapper">
+  <!-- Navbar-->
+  <div id="app_navbar">
+    <app_navbar></app_navbar>
+  </div>
+  <!-- /.navbar -->
+
+
+  <!-- Main Sidebar Container -->
+  <div id="app_aside">
+    <app_aside></app_aside>
+  </div>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card card-default">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-6 text-center">
+                <label>考试课程</label>
+                <select class="form-control" id="course_uuid"></select>
+              </div>
+              <div class="col-2 text-center">
+                <label>考试总时长(分钟)</label>
+                <input class="form-control" type="number" id="during" value="100">
+              </div>
+              <div class="col-2 text-center">
+                <label>试卷组成策略</label>
+                <select class="form-control" id="paperStrategy_uuid">
+                </select>
+              </div>
+              <div class="col-2 text-center">
+                <label>试卷名称</label>
+                <input class="form-control" id="paperName">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group text-center">
+                  <label>考试时间</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-clock"></i></span>
+                    </div>
+                    <input type="text" class="form-control float-right" id="reservationtime">
+                  </div>
+                  <!-- /.input group -->
+                </div>
+              </div>
+              <div class="col-1 text-center">
+                <label>正序显示题目</label><br>
+                <input type="checkbox" state="true" id="sort" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+              </div>
+              <div class="col-1 text-center">
+                <label>开启机器监控</label><br>
+                <input type="checkbox" state="true" id="openFaceIdentity" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+              </div>
+              <div class="col-1 text-center">
+                <label>对他人可见</label><br>
+                <input type="checkbox" state="true" id="visible" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+              </div>
+              <div class="col-1 text-center">
+                <div class="form-group">
+                  <label>精英主义</label><br>
+                  <input type="checkbox" state="true" id="elitism" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                </div>
+              </div>
+              <div class="col-1 text-center">
+                <div class="form-group">
+                  <label>种群交配</label><br>
+                  <input type="checkbox" state="true" id="copulation" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                </div>
+              </div>
+
+
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="minDifficultyVal">试卷最低难度值(<span id="minDifficultyVal_display" class="text-bold">6.0</span>)</label>
+                      <input type="range" value="60" class="custom-range custom-range-info" id="minDifficultyVal">
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="minAdaptationDegree">最低适应度(<span id="minAdaptationDegree_display" class="text-bold">30%</span>)</label>
+                      <input type="range" value="30" class="custom-range custom-range-blue" id="minAdaptationDegree">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="maxDifficultyVal">试卷最高难度值(<span id="maxDifficultyVal_display" class="text-bold">8.0</span>)</label>
+                      <input type="range" value="80" class="custom-range custom-range-info" id="maxDifficultyVal">
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="maxEvolutionNum">最大进化次数(<span id="maxEvolutionNum_display" class="text-bold">2000次</span>)</label>
+                      <input type="range" value="2000" min="0" max="50000" class="custom-range custom-range-blue" id="maxEvolutionNum">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="populationInitMaxRunCount">种群初始迭代次数(<span id="populationInitMaxRunCount_display" class="text-bold">10000次</span>)</label>
+                      <input type="range" min="0" value="10000" max="50000" class="custom-range custom-range-info" id="populationInitMaxRunCount">
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="mutationRate">变异概率(<span id="mutationRate_display" class="text-bold">1.5%</span>)</label>
+                      <input type="range" min="0" value="1500" max="100000" class="custom-range custom-range-blue" id="mutationRate">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="populationSize">种群大小(<span id="populationSize_display" class="text-bold">20个</span>)</label>
+                      <input type="range" min="0" value="100" max="10" class="custom-range custom-range-blue" id="populationSize">
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="tournamentSize">淘汰值大小(<span id="tournamentSize_display" class="text-bold">5个</span>)</label>
+                      <input type="range" min="0" value="5" max="10" class="custom-range custom-range-blue" id="tournamentSize">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="paperStrategy"></div>
+        <div id="paper"></div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/dist/js/demo.js"></script>
+<!-- Bootstrap Switch -->
+<script src="/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="/plugins/toastr/toastr.min.js"></script>
+<!-- InputMask -->
+<script src="/plugins/moment/moment.min.js"></script>
+<script src="/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- date-range-picker -->
+<script src="/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Select2 -->
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+<!-- vue.js for app-->
+<script src="/plugins/vue/dist/vue.js"></script>
+<script src="/js/teacher/components/app_navbar.js"></script>
+<script src="/js/teacher/components/app_aside.js"></script>
+<script src="/js/teacher/inheritanceAlgorithm/inheritanceAlgorithm.js"></script>
+<script>
+  new Vue({el:"#app_navbar",components:{app_navbar}});
+  new Vue({el:"#app_aside",components:{app_aside}});
+</script>
+
+</body>
+</html>

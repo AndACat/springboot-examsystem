@@ -1,0 +1,12 @@
+.imgDisplayParent {
+    margin: 15px;
+    width: 2.8cm;
+    height: 3.8cm;
+    border: 5px dashed gray;
+    border-radius: 8px;
+    background: lightyellow;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    text-align: center;
+    /*transform: rotate(-90deg);*/
+}

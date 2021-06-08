@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>考试</title>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <!-- jsGrid -->
+  <link rel="stylesheet" href="/plugins/jsgrid/jsgrid.min.css">
+  <link rel="stylesheet" href="/plugins/jsgrid/jsgrid-theme.min.css">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <link rel="stylesheet" href="/css/admin/teacher/index.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="/plugins/toastr/toastr.min.css">
+  <style>
+    .custom-btn{
+      margin-bottom: 5px;
+      margin-right: 5px;
+      width: 41px !important;
+    }
+    *{
+      -moz-user-select: none;
+      moz-user-select:-moz-none;
+      -o-user-select:none;
+      -khtml-user-select:none;
+      -webkit-user-select:none;
+      -ms-user-select:none;
+      user-select: none;
+    }
+  </style>
+  <script>
+    window.onkeyup=window.onkeydown=window.onkeypress=function (event) {
+      if(event.keyCode == 123){
+        event.preventDefault();
+        window.event.returnValue = false;
+      }
+    }
+    window.onunload = function(event){
+      let e = window.event || event;
+      e.returnValue = "考试未结束,无法关闭页面";
+      return "考试未结束,无法关闭页面";
+    }
+    window.onclose=function (event) {
+      let e = window.event || event;
+      e.returnValue = "考试未结束,无法关闭页面";
+      return "考试未结束,无法关闭页面";
+    }
+    window.onbeforeunload=function (event) {
+      let e = window.event || event;
+      e.returnValue = "考试未结束,无法关闭页面";
+      return "考试未结束,无法关闭页面";
+    }
+  </script>
+</head>
+<body class="hold-transition layout-top-nav" oncontextmenu="return false" ondragstart="return false" onselect="return false" oncopy="document.selection.empty()" onmouseup="document.selection.empty()">
+<noscript>
+  <iframe src="*.htm"></iframe>
+</noscript>
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand-lg navbar-light navbar-white">
+    <div class="container-fluid">
+      <a href="#" class="navbar-brand">
+        <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+             style="opacity: .8">
+        <span class="brand-text font-weight-light">在线考试系统</span>
+      </a>
+      
+      <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+
+      <!-- Right navbar links -->
+      <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
+              class="fas fa-th-large"></i></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+<!--    <div class="content-header">-->
+<!--      <div class="container-fluid">-->
+<!--        <div class="row mb-2">-->
+
+<!--        </div>&lt;!&ndash; /.row &ndash;&gt;-->
+<!--      </div>&lt;!&ndash; /.container-fluid &ndash;&gt;-->
+<!--    </div>-->
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <br>
+      <div class="container-fluid">
+<!--        <div class="row">-->
+<!--          <div class="col-1"></div>-->
+<!--          <div class="col-10">-->
+<!--            <span>在线考试</span>-->
+<!--            <hr size="2">-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-7">
+            <div class="card card-default">
+              <div class="card-header" id="problemType">单选题</div>
+              <div class="card-body" id="problemNode">
+              </div>
+              <div class="card-footer">
+                <currentProblem currentProblemType currentProblemIdx style="display: none"></currentProblem>
+                <button class="btn btn-primary btn-sm" lastProblemType lastProblemUuid id="lastProblem">上一题</button>
+                <button class="btn btn-primary btn-sm" nextProblemType nextProblemUuid id="nextProblem">下一题</button>
+                <button class="btn btn-danger btn-sm" id="overExam">交卷</button>
+              </div>
+            </div>
+            <video id="video" style=""></video><button onclick="$('video').show()" class="btn btn-sm btn-default">显示</button><button onclick="$('video').hide()" class="btn btn-sm btn-default">隐藏</button>
+          </div>
+          <div class="col-4">
+            <div class="card card-default text-sm" style="width: 90%;">
+              <div class="card-body">
+                <div class="list-group list-group-flush" id="studentInfo">
+                  <div class="list-group-item"><strong>考生信息:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>王震</span><span>1608054401</span></div>
+                  <div class="list-group-item"><strong>剩余时间:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>00:27:10:55秒</span></div>
+                  <div class="list-group-item"><strong>开始时间:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>2020-3-20 18:60</span></div>
+                  <div class="list-group-item"><strong>结束时间:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>2020-3-20 18:60</span></div>
+                </div>
+
+              </div>
+            </div>
+            <div class="card card-default text-sm" style="width: 90%;">
+              <div class="card-header">答题卡</div>
+              <div class="card-body">
+                <div class="list-group list-group-flush" id="problemList">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+
+        </div>
+
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/adminlte.min.js"></script>
+
+<!-- jsGrid -->
+<script src="/plugins/jsgrid/jsgrid.js"></script>
+<!-- SweetAlert2 -->
+<script src="/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="/plugins/toastr/toastr.min.js"></script>
+<script src="/js/student/home/takeExam.js"></script>
+
+</body>
+</html>
