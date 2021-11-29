@@ -66,5 +66,4 @@
 ## 如果我的项目出现问题，请发[Issue](https://gitee.com/WangZhenCoder/examsystem/issues)
 ## 项目releases版没有，gitee限制上传100MB的文件，releases版105MB...
 ## 项目视频讲解不上传了，115MB上传不了。。
-## 本人长期接毕业设计（springboot相关的，网站类型的），QQ1677688026，有需要的可以联系我
 
