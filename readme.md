@@ -60,9 +60,7 @@
 3. The server time zone value '�й���׼ʱ��' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the serverTimezone configuration property)<br>
     数据库时区错误，执行 SQL: set global time_zone = '+8:00'
 
-## 项目论文
-项目自带论文，在根目录下，可自行查看<br>项目论文目录截图
-![img_8.png](img_8.png)
+
 ## 如果我的项目出现问题，请发[Issue](https://gitee.com/WangZhenCoder/examsystem/issues)
 ## 项目releases版没有，gitee限制上传100MB的文件，releases版105MB...
 ## 项目视频讲解不上传了，115MB上传不了。。
